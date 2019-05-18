@@ -1,0 +1,7 @@
+apiVersion: uiapi.com/v1alpha1
+kind: Uapi
+metadata:
+  name: example-uapi
+spec:
+  # Add fields here
+  size: 3

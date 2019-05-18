@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uapi-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: uapi-operator
+  template:
+    metadata:
+      labels:
+        name: uapi-operator
+    spec:
+      serviceAccountName: uapi-operator
+      containers:
+        - name: uapi-operator
+          # Replace this with the built image name
+          image: "{{ REPLACE_IMAGE }}"
+          imagePullPolicy: "{{ pull_policy|default('Always') }}"
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "uapi-operator"
