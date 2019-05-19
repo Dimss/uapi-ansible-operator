@@ -2,4 +2,4 @@
 - version: v1alpha1
   group: uiapi.com
   kind: Uapi
-  playbook: /Users/dima/code/ppro/uapi-operator/uiapi.yml
+  playbook: /opt/ansible/uiapi.yml
