@@ -1,0 +1,117 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uapi-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: uapi-operator
+  template:
+    metadata:
+      labels:
+        name: uapi-operator
+    spec:
+      serviceAccountName: uapi-operator
+      containers:
+        - name: uapi-operator
+          image: "docker.io/dimssss/uapi-operator:0.2"
+          imagePullPolicy: "Always"
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "uapi-operator"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: uapi-operator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  creationTimestamp: null
+  name: uapi-operator
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - services
+  - endpoints
+  - persistentvolumeclaims
+  - events
+  - configmaps
+  - secrets
+  verbs:
+  - '*'
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - get
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - daemonsets
+  - replicasets
+  - statefulsets
+  verbs:
+  - '*'
+- apiGroups:
+  - monitoring.coreos.com
+  resources:
+  - servicemonitors
+  verbs:
+  - get
+  - create
+- apiGroups:
+  - uiapi.com
+  resources:
+  - '*'
+  verbs:
+  - '*'
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: uapi-operator
+subjects:
+- kind: ServiceAccount
+  name: uapi-operator
+roleRef:
+  kind: Role
+  name: uapi-operator
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  name: uapis.uiapi.com
+spec:
+  group: uiapi.com
+  names:
+    kind: Uapi
+    listKind: UapiList
+    plural: uapis
+    singular: uapi
+  scope: Namespaced
+  subresources:
+    status: {}
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+---
