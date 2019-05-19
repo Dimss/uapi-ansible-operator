@@ -1,0 +1,14 @@
+- name: Deploy MongoDB instaces
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'templates/mongodb.yml') }}"
+
+- name: Deploy API
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'templates/api.yml') }}"
+
+- name: Deploy UI
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'templates/ui.yml') }}"

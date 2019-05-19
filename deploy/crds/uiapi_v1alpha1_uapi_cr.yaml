@@ -1,7 +1,21 @@
 apiVersion: uiapi.com/v1alpha1
 kind: Uapi
 metadata:
-  name: example-uapi
+  name: uapi
 spec:
-  # Add fields here
-  size: 3
+  namespace: "default"
+  ui:
+    size: 1
+    name: "ui"
+    service_node_port: 30080
+    api_url: "http://192.168.99.100:30081"
+    image: "docker.io/dimssss/uapiui:latest"
+  api:
+    size: 1
+    name: "uiapi"
+    service_node_port: 30081
+    conf_secret_name: "uapisecret"
+    image: "docker.io/dimssss/uapi:latest"
+  db:
+    host: "mongo"
+    name: "uapi"

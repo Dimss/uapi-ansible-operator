@@ -1,0 +1,44 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ui.name}}"
+  namespace: "{{namespace}}"
+spec:
+  selector:
+    app: "{{ui.name}}"
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3000
+    nodePort: {{ui.service_node_port}}
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    app: "{{ui.name}}"
+  name: "{{ui.name}}"
+  namespace: "{{namespace}}"
+spec:
+  replicas: {{ui.size}}
+  selector:
+    matchLabels:
+      app: "{{ui.name}}"
+  template:
+    metadata:
+      labels:
+        app: "{{ui.name}}"
+    spec:
+      containers:
+      - name: "{{ui.name}}"
+        image: "{{ui.image}}"
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 3000
+        env:
+        - name: API_URL
+          value: "{{ui.api_url}}"
+
+

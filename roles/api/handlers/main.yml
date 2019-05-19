@@ -1,0 +1,4 @@
+- name: Create Uapi Deployment
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'templates/deployment.yml') }}"
