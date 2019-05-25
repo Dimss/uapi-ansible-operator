@@ -13,3 +13,6 @@ openshift = "*"
 
 [requires]
 python_version = "3.7"
+
+[scripts]
+op  = "operator-sdk up local --namespace=uapi --watches-file=watches-dev.yaml"

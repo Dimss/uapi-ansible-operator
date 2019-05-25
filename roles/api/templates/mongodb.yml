@@ -18,8 +18,17 @@ spec:
     spec:
       containers:
       - name: "mongodb"
-        image: "mongo:latest"
         imagePullPolicy: Always
+        image: "registry.redhat.io/rhscl/mongodb-36-rhel7:latest"
+        env:
+        - name: MONGODB_USER
+          value: "{{db.host}}"
+        - name: MONGODB_PASSWORD
+          value: "{{db.host}}"
+        - name: MONGODB_ADMIN_PASSWORD
+          value: "{{db.host}}"
+        - name: MONGODB_DATABASE
+          value: "{{db.name}}"
         ports:
           - containerPort: 27017
 ---

@@ -3,7 +3,7 @@ kind: Uapi
 metadata:
   name: uapi
 spec:
-  namespace: "default"
+  namespace: "uapi"
   ui:
     size: 1
     name: "ui"
@@ -15,7 +15,8 @@ spec:
     name: "uiapi"
     service_node_port: 30081
     conf_secret_name: "uapisecret"
-    image: "docker.io/dimssss/uapi:latest"
+#    image: "docker.io/dimssss/uapi:latest"
+    image: "docker-registry.default.svc:5000/uapi/uapi:latest"
   db:
     host: "mongo"
     name: "uapi"
