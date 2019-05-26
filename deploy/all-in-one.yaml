@@ -16,7 +16,7 @@ spec:
       serviceAccountName: uapi-operator
       containers:
         - name: uapi-operator
-          image: "docker.io/dimssss/uapi-operator:0.2"
+          image: "docker.io/dimssss/uapi-operator:0.3"
           imagePullPolicy: "Always"
           env:
             - name: WATCH_NAMESPACE

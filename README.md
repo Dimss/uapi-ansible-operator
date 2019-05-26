@@ -1,9 +1,22 @@
 ## UAPI-UI Operator deploys API, UI and MongoDB service. 
 
-To deploy the UAPIUI app with operator, 
-- Deploy the Operator `kubectl create -f https://gitlab.com/dimss/ppro-uapiui-operator/raw/master/deploy/all-in-one.yaml`
-- Make sure the Operator container is up and running `kubectl get pods | grep uapi-operator`
-- Create new Custom Resource `kubectl create -f https://gitlab.com/dimss/ppro-uapiui-operator/raw/master/deploy/crds/uiapi_v1alpha1_uapi_cr.yaml`
+### Build UAPI Ansible operator
+```bash
+operator-sdk build docker.io/dimssss/uapi-operator:TAG
+docker push docker.io/dimssss/uapi-operator:TAG
+```
+
+###Deploy the UAPI Ansible operator 
+```bash
+kubectl create -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/all-in-one.yaml
+kubectl create -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/crds/uiapi_v1alpha1_uapi_cr.yaml
+```
+
+###Cleanup
+```bash
+kubectl delete -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/crds/uiapi_v1alpha1_uapi_cr.yaml
+kubectl delete -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/all-in-one.yaml
+```
 
 Customize CR
 ```bash
@@ -12,33 +25,23 @@ kind: Uapi
 metadata:
   name: uapi
 spec:
-  # Specify to which namespace deploy services  
-  namespace: "default"
+  namespace: "uapi"
   ui:
-    # Set replica counts of the service 
     size: 1
-    # That name will be used for creating various related K8S objects  
     name: "ui"
-    # Service node port
     service_node_port: 30080
-    # The backend API URL - THAT URL MUST BE ACCESSIBLE FROM OUTSIDE OF THE CLUSTER
-    api_url: "http://192.168.99.100:30081"
-    # UI service docker image 
-    image: "docker.io/dimssss/uapiui:latest"
+    api_url: "http://127.0.0.1:30081"
+    image: "docker-registry.default.svc:5000/uapi/ui:latest"
   api:
-    # Set replica counts of the service
     size: 1
-    # That name will be used for creating various related K8S objects 
     name: "uiapi"
-    # The node port for the API service 
     service_node_port: 30081
-    # Secret name for configuration 
     conf_secret_name: "uapisecret"
-    # API docker image 
-    image: "docker.io/dimssss/uapi:latest"
+    image: "docker-registry.default.svc:5000/uapi/uapi:latest"
   db:
-    # Service name for MongoDB service 
+    port: 27017
     host: "mongo"
-    # DB name 
     name: "uapi"
+    image: "registry.redhat.io/rhscl/mongodb-36-rhel7:latest"
+
 ```
