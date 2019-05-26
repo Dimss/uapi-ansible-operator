@@ -18,7 +18,7 @@ spec:
       containers:
       - name: "mongodb"
         imagePullPolicy: Always
-        image: "registry.redhat.io/rhscl/mongodb-36-rhel7:latest"
+        image: "{{db.image}}"
         env:
         - name: MONGODB_USER
           value: "{{db.host}}"
