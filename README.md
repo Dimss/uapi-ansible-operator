@@ -10,10 +10,9 @@ oc create -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/maste
 pipenv run op
 # Create CR
 oc create -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/crds/uiapi_v1alpha1_uapi_cr.yaml
-# Cleanup
-# CR
+# Cleanup CR
 oc delete -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/crds/uiapi_v1alpha1_uapi_cr.yaml 
-# CRD
+# Cleanup CRD
 oc delete -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/crds/uiapi_v1alpha1_uapi_crd.yaml
 ```
 
