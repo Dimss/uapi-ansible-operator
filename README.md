@@ -6,13 +6,13 @@ operator-sdk build docker.io/dimssss/uapi-operator:TAG
 docker push docker.io/dimssss/uapi-operator:TAG
 ```
 
-###Deploy the UAPI Ansible operator 
+### Deploy the UAPI Ansible operator 
 ```bash
 kubectl create -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/all-in-one.yaml
 kubectl create -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/crds/uiapi_v1alpha1_uapi_cr.yaml
 ```
 
-###Cleanup
+### Cleanup
 ```bash
 kubectl delete -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/crds/uiapi_v1alpha1_uapi_cr.yaml
 kubectl delete -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/all-in-one.yaml
