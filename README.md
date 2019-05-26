@@ -24,13 +24,17 @@ docker push docker.io/dimssss/uapi-operator:TAG
 
 ### Deploy the UAPI Ansible operator 
 ```bash
+# CRD - all-in-one 
 oc create -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/all-in-one.yaml
+# CR
 oc create -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/crds/uiapi_v1alpha1_uapi_cr.yaml
 ```
 
 ### Cleanup
 ```bash
+# CR
 oc delete -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/crds/uiapi_v1alpha1_uapi_cr.yaml
+# CRD
 oc delete -f https://raw.githubusercontent.com/Dimss/uapi-ansible-operator/master/deploy/all-in-one.yaml
 ```
 
