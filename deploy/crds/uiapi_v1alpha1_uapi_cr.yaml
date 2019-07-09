@@ -9,13 +9,13 @@ spec:
     name: "ui"
     service_node_port: 30080
     api_url: "http://127.0.0.1:30081"
-    image: "docker-registry.default.svc:5000/uapi/ui:latest"
+    image: "docker.io/dimssss/upapi-ui:latest"
   api:
     size: 1
     name: "uiapi"
     service_node_port: 30081
     conf_secret_name: "uapisecret"
-    image: "docker-registry.default.svc:5000/uapi/uapi:latest"
+    image: "docker.io/dimssss/upapi:latest"
   db:
     port: 27017
     host: "mongo"
